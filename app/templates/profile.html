@@ -1,0 +1,11 @@
+<b style="color:green"><h2>{{ sign_up_msg }}, {{ name }}</h2></b>
+
+<header><b>You may perform a product search below:</b></header><br>
+<div class="panel panel-primary">
+    <form action="/api/product" method="GET">
+        <input type="text" name="name" required/><br/><br/><br/>
+        <input type="text" name="output_type" value = "html" hidden/>
+        <input type="text" name="user_id" value = "{{ user_id }}"  hidden/>
+        <input type="submit" name="Search">
+    </form>
+</div>

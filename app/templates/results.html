@@ -1,0 +1,93 @@
+<html>
+<head>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../blocks.css">
+    <title>Search results</title>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Mini Amazon</a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <h2>Found {{ results | length }} results for {{ query }}:</h2>
+        <br>
+
+        {% for result in results %}
+
+        <div class="col-md-12" style="margin-top: 20px;">
+            <div class="pricing-table">
+                <div class="panel panel-primary" style="border: none;">
+                    <div class="controle-header panel-heading panel-heading-landing">
+                        <h1 class="panel-title panel-title-landing">
+                            {{result.name}}
+                        </h1>
+                    </div>
+                    <div class="controle-panel-heading panel-heading panel-heading-landing-box">
+
+                    </div>
+                    <div class="panel-body panel-body-landing">
+                        <table class="table">
+                            <tr>
+                                <td width="50px"><i class="fa fa-check"></i></td>
+                                <td>{{result.name}}</td>
+                            </tr>
+                            <tr>
+                                <td width="50px"><i class="fa fa-check"></i></td>
+                                <td>{{result.description}}</td>
+                            </tr>
+                            <tr>
+                                <td width="50px"><i class="fa fa-check"></i></td>
+                                <td>{{result.price}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel-footer panel-footer-landing">
+                        <a href="/api/cart/add?user_id={{user_id}}" class="btn btn-price btn-success btn-lg">ADD TO CART</a>
+                    </div>
+                    <div class="panel-body panel-body-landing">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+                          <!-- Identify your business so that you can collect the payments. -->
+                          <input type="hidden" name="business" value="mohiit1502@gmail.com">
+
+                          <!-- Specify a Buy Now button. -->
+                          <input type="hidden" name="cmd" value="_xclick">
+
+                          <!-- Specify details about the item that buyers will purchase. -->
+                          <input type="hidden" name="item_name" value="Hot Sauce-12oz. Bottle">
+                          <input type="hidden" name="amount" value="5.95">
+                          <input type="hidden" name="currency_code" value="INR">
+
+                          <!-- Display the payment button. -->
+                          <input type="image" name="submit" border="0"
+                          src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+                          alt="Buy Now">
+                          <img alt="" border="0" width="1" height="1"
+                          src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

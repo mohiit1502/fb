@@ -111,3 +111,5 @@ node_modules/
 bower_components/
 tmp
 .DS_Store
+e2e-tests/
+components/

@@ -11,7 +11,7 @@ class Product:
         self.price = price
 
 
-class MongoProduct:
+class MongoProductDao:
     def __init__(self):
         config = json.load(open('./config.json', 'r'))
         client = MongoClient(config['mongo_host'], config['mongo_port'])

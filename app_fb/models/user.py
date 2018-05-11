@@ -5,14 +5,25 @@ import json
 
 
 class User:
-    def __init__(self, name, email, username, password):
-        self.name = name
-        self.email = email
+    def __init__(self, username, password, posts, notifications, first_name, last_name, email, gender, locale, phone, address, friends, status, messages, image_url):
         self.username = username
         self.password = password
+        self.posts = posts
+        self.notifications = notifications
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.gender = gender
+        self.locale = locale
+        self.phone = phone
+        self.address = address
+        self.friends = friends
+        self.status = status
+        self.messages = messages
+        self.image_url = image_url
 
 
-class MongoUser:
+class MongoUserDao:
     def __init__(self):
         config = json.load(open('./config.json', 'r'))
         client = MongoClient(config['mongo_host'], config['mongo_port'])
@@ -22,7 +33,7 @@ class MongoUser:
         self.db.users.insert_one(user)
 
     def search_by_name(self, name):
-        result_cursor = self.db.users.find({'name': name})
+        result_cursor = self.db.users.find({'first_name': name})
         matches = []
         for user in result_cursor:
             matches.append(user)
@@ -35,6 +46,8 @@ class MongoUser:
         self.db.users.update_one({'_id': ObjectId(_id)}, {'$set': user})
 
     def authenticate(self, user):
+        if user.username is None or user.password is None:
+            return False
         result_cursor = self.db.users.find({'username': user.username, 'password':user.password})
         if result_cursor.count() == 0:
             return False
@@ -47,10 +60,19 @@ class MongoUser:
     def add_stuff(self):
         for i in range(10):
             user = dict()
-            user['name'] = "name" + str(i)
+
+            user['first_name'] = "first_name" + str(i)
+            user['last_name'] = "last_name" + str(i)
             user['email'] = "email" + str(i)
+            if i % 2 == 0:
+                user['gender'] = 'Male'
+                user['locale'] = 'en-IN'
+            else:
+                user['gender'] = 'Female'
+                user['locale'] = 'en-US'
             user['username'] = "username" + str(i)
             user['password'] = "password" + str(i)
+            user['image_url'] = '/app/images/image' + str(i) + '.png'
             self.db.users.insert_one(user)
 
     def find_user_name_by_credentials(self, user):
@@ -59,7 +81,7 @@ class MongoUser:
         matches = []
         for user in result_cursor:
             matches.append(user)
-        return matches[0]['name'] if len(matches) > 0 else None
+        return matches[0]['first_name'] + " " + matches[0]['last_name'] if len(matches) > 0 else None
 
     def check_if_user_exists(self, username):
         result_cursor = self.db.users.find({'username': username})
@@ -109,4 +131,21 @@ class MongoUser:
         user = self.get_by_id(user_id)
         return user['cart']
 
+    def add_user_post(self, post, _id):
+        user = self.get_by_id(_id)
+        if user is not None:
+            if 'posts' in user:
+                user['posts'].append(post)
+            else:
+                posts = []
+                posts.append(post)
+                user['posts'] = posts
+            self.db.users.update_one({'_id': ObjectId(_id)}, {'$set': user})
+
+    def get_user_posts(self, _id):
+        user = self.get_by_id(_id)
+        if 'posts' in user:
+            return user['posts']
+        else:
+            return None
 

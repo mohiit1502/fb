@@ -19,14 +19,20 @@
         <div class="panel-heading">{{result.name}}</div>
          <form action="/api/product" method="POST">
              <br><br>
-            Name:
-            <input type="text" name="name" value="{{result.name}}" required><br>
+            First Name:
+            <input type="text" name="first_name" value="{{result.first_name}}" required><br>
+             Last Name:
+            <input type="text" name="last_name" value="{{result.last_name}}" required><br>
             Username:
             <input type="text" name="username" value="{{result.username}}" required><br>
             Email:
             <input type="text" name="email" value="{{result.email}}" required><br>
              Password:
              <input type="password" name="password" value="{{result.password}}" ><br>
+             Gender:
+             <input type="text" name="gender" value="{{result.gender}}" ><br>
+             Locale:
+             <input type="text" name="locale" value="{{result.locale}}" ><br>
              <!--<input type="text" name="operation_type" value="delete" hidden />-->
              <!--<input type="submit" value="update" >-->
             <input type="submit" value="delete">

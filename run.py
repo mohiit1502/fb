@@ -1,4 +1,4 @@
-from mini_amazon import app
+from app_fb import app
 import json
 
 if __name__ == '__main__':

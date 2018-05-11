@@ -3,5 +3,5 @@
   "port":5003,
   "mongo_host":"localhost",
   "mongo_port":27017,
-  "db_name":"mohit_amazon"
+  "db_name":"fb"
 }

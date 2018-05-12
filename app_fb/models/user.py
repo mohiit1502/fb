@@ -144,8 +144,11 @@ class MongoUserDao:
 
     def get_user_posts(self, _id):
         user = self.get_by_id(_id)
-        if 'posts' in user:
-            return user['posts']
+        if user is not None:
+            if 'posts' in user:
+                return user['posts']
+            else:
+                return None
         else:
-            return None
+            return []
 

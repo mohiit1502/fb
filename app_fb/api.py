@@ -69,7 +69,7 @@ def user_actions(action):
     if action == 'login':
         username = request.form.get('username')
         password = request.form.get('password')
-        user = User(username, password, None, None, None, None, None, None, None, None, None, 'http://127.0.0.1:5003/app/images/image.png')
+        user = User(username, password, None, None, None, None, None, None, None, None, None, None, None, None, None)
         is_valid = mongo_user_dao.authenticate(user)
         name = mongo_user_dao.find_user_name_by_credentials(user)
         if is_valid is not None and is_valid:

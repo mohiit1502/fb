@@ -1,4 +1,4 @@
-from flask import request, Response, render_template, send_from_directory
+from flask import request, Response, render_template, session, send_from_directory
 from app_fb import app
 from app_fb.models.product import Product, MongoProductDao
 from app_fb.models.user import User, MongoUserDao
@@ -71,6 +71,7 @@ def user_actions(action):
         password = request.form.get('password')
         user = User(username, password, None, None, None, None, None, None, None, None, None, None, None, None, None)
         is_valid = mongo_user_dao.authenticate(user)
+        session['user_id'] = str(mongo_user_dao.get_id_by_username(username))
         name = mongo_user_dao.find_user_name_by_credentials(user)
         if is_valid is not None and is_valid:
             return render_template('profile.html', sign_up_msg="Welcome to Facebook", name = name if name is not None else "Anonymous", user_id=mongo_user_dao.get_id_by_username(username))
@@ -87,6 +88,7 @@ def user_actions(action):
             return render_template("index1.html", user_exists_msg="Username exists, please enter a different user name!")
         else:
             mongo_user_dao.save(user)
+            session['user_id'] = str(mongo_user_dao.get_id_by_username(user['username']))
             return Response(str({'status' : 'User Added!'}), mimetype='application/json', status=200)
 
     else:
